@@ -1,11 +1,12 @@
 package sightreading.external.parser
 import scala.util.parsing.combinator._
 import sightreading.external.ir._
+import scala.collection.mutable.Map
 
 object keyHolder {
   val majorKeys = """[A,B,C,D,E,F,G,Bb,Eb,Ab,Db,Gb,Cb,F#,C#]""".r
   val minorKeys = """[a,e,b,c#,g#,ab,d#,eb,a#,bb,f,c,g,d]""".r
-  
+  var defMaps:Map[String,List[Bars]] = Map()
 }
 
 object SightReadingParser extends JavaTokenParsers with RegexParsers{
@@ -14,8 +15,13 @@ object SightReadingParser extends JavaTokenParsers with RegexParsers{
     }
     
     def thebars: Parser[List[Bars]] = {
-      (   "Bars"~"for"~wholeNumber~"in"~keyParser~thebars ^^ {case "Bars"~"for"~n~"in"~k~more => (List(Bars(k,n.toInt))) ++ more}
-        | "Bars"~"for"~wholeNumber~"in"~keyParser ^^ {case "Bars"~"for"~n~"in"~k => (List(Bars(k,n.toInt)))})
+      (   keyParser~","~timeParser~"for"~wholeNumber~"bars"~";"~thebars ^^ {case k~","~t~"for"~n~"bars"~";"~more => List(Bars(k,t,n.toInt)) ++ more}
+        | keyParser~","~timeParser~"for"~wholeNumber~"bars"~";" ^^ {case k~","~t~"for"~n~"bars"~";" => List(Bars(k,t,n.toInt))})
+        
+    }
+    
+    def timeParser: Parser[TimeSignature] = {
+      (   wholeNumber~"/"~wholeNumber ^^ {case n1~"/"~n2 => TimeSignature(n1.toInt,n2.toInt)})
     }
     
     def keyParser: Parser[Scale] = {

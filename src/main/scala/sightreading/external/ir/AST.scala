@@ -7,8 +7,10 @@ sealed abstract class Scale
 case class MajorScale(k: String) extends Scale
 case class MinorScale(k: String) extends Scale
 
+case class TimeSignature(top: Int, bot: Int)
+
 // A group of measures and only takes in a key for now
-case class Bars(key: Scale, numBars: Int)
+case class Bars(key: Scale, time: TimeSignature, numBars: Int)
 
 // A group of bars forms the music
 // This may change into phrases, sections, etc.

@@ -12,13 +12,13 @@ package object semantics {
     }
     pw.close()
     // Runs the python program on the output from Scala
-    "python sheetMusicMaker.py" !
+//    "python sheetMusicMaker.py" !
   }
   
   def convertBars(x: Bars): String = x match {
-    case Bars(MajorScale(k),n) =>
-        k + " " + n
-    case Bars(MinorScale(k),n) =>
-        k + " " + n
+    case Bars(MajorScale(k),TimeSignature(a,b),n) =>
+        k + " " + a.toString() + " " + b.toString() + " " + n
+    case Bars(MinorScale(k),TimeSignature(a,b),n) =>
+        k + " " + a.toString() + " " + b.toString() + " " + n
   }
 }
