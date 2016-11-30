@@ -47,5 +47,10 @@ for section in content:
 
 staff.extend(measures)
 
-show(staff)
+# Transferring staff to score and adding final bar
+score = Score([])
+score.append(staff)
+score.add_final_bar_line()
+show(score)
+
 systemtools.IOManager.save_last_pdf_as("firstoutput.pdf")

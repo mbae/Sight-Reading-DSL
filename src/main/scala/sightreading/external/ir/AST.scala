@@ -2,16 +2,19 @@ package sightreading.external.ir
 
 // A generic set of Notes
 sealed abstract class Scale
-
-// Support for only two kinds of scales for now
 case class MajorScale(k: String) extends Scale
 case class MinorScale(k: String) extends Scale
 
 case class TimeSignature(top: Int, bot: Int)
 
-// A group of measures and only takes in a key for now
-case class Bars(key: Scale, time: TimeSignature, numBars: Int)
+// Something users can say to create music
+sealed abstract class Statement
+case class Bars(key: Option[Scale], time: Option[TimeSignature], numBars: Int) extends Statement
+case class Variable(varName: String) extends Statement
 
-// A group of bars forms the music
-// This may change into phrases, sections, etc.
-//case class groupOfBars(bars: List[Bar])
+// Assign statements to a variable for convenience
+case class Definition(name: String, defs: List[Statement]) extends Statement
+// Users can write stuff that is global to the whole sheet music
+sealed abstract class globalVar extends Statement
+case class globalTime(value: TimeSignature) extends globalVar
+case class globalKey(value: Scale) extends globalVar
