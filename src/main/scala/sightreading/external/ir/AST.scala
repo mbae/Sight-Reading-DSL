@@ -1,10 +1,7 @@
 package sightreading.external.ir
 
-// A generic set of Notes
-sealed abstract class Scale
-case class MajorScale(k: String) extends Scale
-case class MinorScale(k: String) extends Scale
-
+// A generic set of note and time signature
+case class Scale(key: String, quality: String)
 case class TimeSignature(top: Int, bot: Int)
 
 // Something users can say to create music

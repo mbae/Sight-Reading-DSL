@@ -57,8 +57,8 @@ object SightReadingParser extends JavaTokenParsers with RegexParsers{
     
     // Parses a key signature
     def keyParser: Parser[Scale] = {
-      (   keyHolder.majorKeys~"major" ^^ {case k~"major" => MajorScale(k)}
-        | keyHolder.minorKeys~"minor" ^^ {case k~"minor" => MinorScale(k)})
+      (   keyHolder.majorKeys~"major" ^^ {case k~"major" => Scale(k, "major")}
+        | keyHolder.minorKeys~"minor" ^^ {case k~"minor" => Scale(k, "minor")})
     }  
 }
 
