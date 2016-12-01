@@ -1,3 +1,20 @@
+time: 3/4
+key: A major
+
+3/4 for 2 bars;
+
+def recapitulation {
+	G major for 2 bars;
+	e minor, 6/8 for 2 bars;
+	secondTheme;
+}
+
+def secondTheme {
+	d minor, 6/8 for 3 bars;
+	a minor for 3 bars;
+}
+
+recapitulation;
 A major, 4/4 for 4 bars;
 b minor, 3/4 for 4 bars;
 E major, 6/8 for 4 bars;

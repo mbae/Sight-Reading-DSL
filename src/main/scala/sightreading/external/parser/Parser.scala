@@ -6,6 +6,7 @@ import scala.collection.mutable.Map
 object keyHolder {
   val majorKeys = """[A,B,C,D,E,F,G,Bb,Eb,Ab,Db,Gb,Cb,F#,C#]""".r
   val minorKeys = """[a,e,b,c#,g#,ab,d#,eb,a#,bb,f,c,g,d]""".r
+  val aWord = "\\w+".r // Used to parse a single, general word
 }
 
 object SightReadingParser extends JavaTokenParsers with RegexParsers{
@@ -28,16 +29,23 @@ object SightReadingParser extends JavaTokenParsers with RegexParsers{
     // Parses a definition of a variable a user has made regardless of whether
     // the variable is global or specific to the program
     def defParser: Parser[List[Statement]] = {
-      (   "def" ~ stringLiteral ~ "{" ~ actionParser ~ "}" ^^ {case "def" ~ s ~ "{" ~ a ~ "}" => List(Definition(s,a))}
+      (   "def" ~ keyHolder.aWord ~ "{" ~ actionParsers ~ "}" ^^ {case "def" ~ s ~"{" ~ a ~ "}" => List(Definition(s,a))}
         | "time" ~ ":" ~ timeParser ^^ {case "time" ~ ":" ~ t => List(globalTime(t))}
         | "key" ~ ":" ~ keyParser ^^ {case "key" ~ ":" ~ k => List(globalKey(k))}
+      )
+    }
+    
+    // Helper function for defParser to recursively parse actions 
+    def actionParsers: Parser[List[Statement]] = {
+      (   actionParser ~ actionParsers ^^ {case a ~ more => a ++ more}
+        | actionParser ^^ {case a => a}
       )
     }
     
     // Parses things that are supposed to be written to sheet music
     def actionParser: Parser[List[Statement]] = {
       (   barParser ^^ {case b => b}
-        | stringLiteral~";" ^^ {case s~";" => List(Variable(s))}
+        | keyHolder.aWord ~ ";" ^^ {case s~";" => List(Variable(s))}
       )
     }
     

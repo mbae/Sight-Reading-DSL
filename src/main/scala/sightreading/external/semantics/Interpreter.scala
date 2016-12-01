@@ -20,13 +20,13 @@ package object semantics {
     val pw = new PrintWriter(new FileOutputStream("exportToPython.sr", false))
     for (e <- rules) {
       val stringRepresentation = convertStatement(e)
-      if (!stringRepresentation.equals(null)) {
+      if (!(stringRepresentation == null)) {
         pw.println(stringRepresentation)
       }
     }
     pw.close()
     // Runs the python program on the output from Scala
-    "python sheetMusicMaker.py" !
+//    "python sheetMusicMaker.py" !
   }
   
   def convertStatement(x: Statement): String = x match {
@@ -46,25 +46,25 @@ package object semantics {
     case (Some(Scale(k,q)),Some(TimeSignature(n1,n2)),num) =>
       k + " " + q + " " + n1.toString() + " " + n2.toString() + " " + num.toString()
     case (None,Some(TimeSignature(n1,n2)),num) =>
-      if (tableOfVars.globalKey.equals(null)) {
+      if (tableOfVars.globalKey == null) {
         throw new NoSuchFieldException("Global key doesn't exist; Need to specify a global key") // Want to let the user know where this error occurs
       } else {
         val Scale(k,q) = tableOfVars.globalKey
         k + " " + q + " " + n1.toString() + " " + n2.toString() + " " + num.toString()
       }
     case (Some(Scale(k,q)),None,num) =>
-      if (tableOfVars.globalTime.equals(null)) {
+      if (tableOfVars.globalTime == null) {
         throw new NoSuchFieldException("Global time doesn't exist; Need to specify a global time") // Want to let the user know where this error occurs
       } else {
         val TimeSignature(n1,n2) = tableOfVars.globalTime
         k + " " + q + " " + n1.toString() + " " + n2.toString() + " " + num.toString()
       }
     case (None, None, num) =>
-      if (tableOfVars.globalTime.equals(null) && tableOfVars.globalTime.equals(null)) {
+      if ((tableOfVars.globalTime == null) && (tableOfVars.globalTime == null)) {
         throw new NoSuchFieldException("Global key and global time doesn't exist")
-      } else if(tableOfVars.globalTime.equals(null)) {
+      } else if(tableOfVars.globalTime == null) {
         throw new NoSuchFieldException("Global time doesn't exist; Need to specify a global time")
-      } else if(tableOfVars.globalKey.equals(null)) {
+      } else if(tableOfVars.globalKey == null) {
         throw new NoSuchFieldException("Global key doesn't exist; Need to specify a global key")
       } else {
         val Scale(k,q) = tableOfVars.globalKey
@@ -86,7 +86,9 @@ package object semantics {
         case Variable(n) =>
           finalString += convertVariable(n)
         case Bars(k,t,n) =>
-          finalString += convertBars(k,t,n)
+          finalString += convertBars(k,t,n) + "\n"
+        case _ =>
+          
       }
     }
     finalString
