@@ -34,6 +34,8 @@ package object semantics {
       convertBars(scale,time,num) // k + " " + a.toString() + " " + b.toString() + " " + n
     case Variable(name) =>
       convertVariable(name)
+    case VariableWithRepetition(name, num) =>
+      convertVariableWithRepetition(name, num)
     case _ =>
       null
   }
@@ -71,6 +73,13 @@ package object semantics {
         val TimeSignature(n1,n2) = tableOfVars.globalTime
         k + " " + q + " " + n1.toString() + " " + n2.toString() + " " + num.toString()
       }
+  }
+  
+  def convertVariableWithRepetition(name: String, num: Int): String= {
+    if (num <= 1) {
+      return convertVariable(name)
+    }
+    convertVariable(name) + convertVariableWithRepetition(name, num - 1)
   }
   
   def convertVariable(name: String): String= {

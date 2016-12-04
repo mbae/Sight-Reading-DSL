@@ -45,6 +45,7 @@ object SightReadingParser extends JavaTokenParsers with RegexParsers{
     // Parses things that are supposed to be written to sheet music
     def actionParser: Parser[List[Statement]] = {
       (   barParser ^^ {case b => b}
+        | keyHolder.aWord ~ wholeNumber ~ "times" ~ ";" ^^ {case s~n~"times"~";" => List(VariableWithRepetition(s,n.toInt))}
         | keyHolder.aWord ~ ";" ^^ {case s~";" => List(Variable(s))}
       )
     }

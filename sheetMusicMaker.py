@@ -28,6 +28,9 @@ currentDuration = 1 # quarter note; 0.5 represents an eighth note; Could be rand
 
 # print(Measure(2,4, []))
 for section in content:
+	# if we get an empty line, don't do anything
+	if len(section) == 0:
+		break
 	currentKey, currentQuality = dictOfKeys[section[0]]
 	for i in range(int(section[4])): # For each bar
 		duration = int(section[2]) / float(section[3]) * 4.0 # Gives us the duration in quarter notes
