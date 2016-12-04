@@ -20,13 +20,13 @@ package object semantics {
     val pw = new PrintWriter(new FileOutputStream("exportToPython.sr", false))
     for (e <- rules) {
       val stringRepresentation = convertStatement(e)
-      if (!(stringRepresentation == null)) {
-        pw.println(stringRepresentation)
+      if (stringRepresentation != null) {
+        pw.println(stringRepresentation.trim())
       }
     }
     pw.close()
     // Runs the python program on the output from Scala
-//    "python sheetMusicMaker.py" !
+    "python sheetMusicMaker.py" !
   }
   
   def convertStatement(x: Statement): String = x match {
@@ -106,15 +106,15 @@ package object semantics {
     }
   }
   
-  def checkForCycles(tableOfDefs: Map[String,List[Statement]]): Boolean= {
+  def checkForCycles(tableOfDefs: Map[String,List[Statement]])= {
     var unvisitedDefs: collection.mutable.Set[String] = collection.mutable.Set[String](tableOfDefs.keySet.toSeq:_*)
     while (!unvisitedDefs.isEmpty) {
       val element = unvisitedDefs.head
       unvisitedDefs -= element
-      if (performDFS(element, unvisitedDefs))
-        true
+      if (performDFS(element, unvisitedDefs)) {
+        throw cycleDetectedException("Cycle found definitions. Will lead to infinite loop")
+      }
     }
-    false
   }
   
   // Returns false if there is no cycle
@@ -122,7 +122,7 @@ package object semantics {
     var finalBool = false
     tableOfVars.defMap(element).foreach { x =>
       x match {
-        case Variable(n) => if (unvisitedDefs contains n) {unvisitedDefs -= n; performDFS(n, unvisitedDefs);} else finalBool = true
+        case Variable(n) => if (unvisitedDefs contains n) {unvisitedDefs -= n; performDFS(n, unvisitedDefs);} else {finalBool = true}
         case _ =>
       }
     }

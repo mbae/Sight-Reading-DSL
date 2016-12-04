@@ -15,3 +15,6 @@ case class Definition(name: String, defs: List[Statement]) extends Statement
 sealed abstract class globalVar extends Statement
 case class globalTime(value: TimeSignature) extends globalVar
 case class globalKey(value: Scale) extends globalVar
+
+
+case class cycleDetectedException(smth:String)  extends Exception(smth)

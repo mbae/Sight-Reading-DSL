@@ -29,9 +29,9 @@ currentDuration = 1 # quarter note; 0.5 represents an eighth note; Could be rand
 # print(Measure(2,4, []))
 for section in content:
 	currentKey, currentQuality = dictOfKeys[section[0]]
-	for i in range(int(section[3])): # For each bar
-		duration = int(section[1]) / float(section[2]) * 4.0 # Gives us the duration in quarter notes
-		measures.append(Measure((int(section[1]),int(section[2])), []))
+	for i in range(int(section[4])): # For each bar
+		duration = int(section[2]) / float(section[3]) * 4.0 # Gives us the duration in quarter notes
+		measures.append(Measure((int(section[2]),int(section[3])), []))
 		measureNotes = ""
 		while(True): # Until we fill this measure up
 			newNote = predictNextNote(currentNote, currentKey, currentQuality, random.randrange(4,int(14 * currentDuration)), lowerBound, upperBound)

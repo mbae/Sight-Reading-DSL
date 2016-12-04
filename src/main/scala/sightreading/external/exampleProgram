@@ -12,6 +12,7 @@ def recapitulation {
 def secondTheme {
 	d minor, 6/8 for 3 bars;
 	a minor for 3 bars;
+	
 }
 
 recapitulation;
