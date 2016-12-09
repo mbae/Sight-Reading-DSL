@@ -25,8 +25,6 @@ package object semantics {
       }
     }
     pw.close()
-    // Runs the python program on the output from Scala
-    "python sheetMusicMaker.py" !
   }
   
   def convertStatement(x: Statement): String = x match {
