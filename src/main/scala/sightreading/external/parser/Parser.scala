@@ -4,8 +4,8 @@ import sightreading.external.ir._
 import scala.collection.mutable.Map
 
 object keyHolder {
-  val majorKeys = """[A,B,C,D,E,F,G,Bb,Eb,Ab,Db,Gb,Cb,F#,C#]""".r
-  val minorKeys = """[a,e,b,c#,g#,ab,d#,eb,a#,bb,f,c,g,d]""".r
+  val majorKeys = "[CF]#|[BEADGC]b|[CDEFGAB]".r
+  val minorKeys = "[cgda]#|[aeb]b|[aebfcgd]".r
   val aWord = "\\w+".r // Used to parse a single, general word
 }
 

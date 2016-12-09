@@ -5,7 +5,10 @@ import copy
 from abjad import *
 # To predict next note, just look at previous note for now (first-order markov process)
 
-allKeys = ["a", "bf", "b", "c", "cs", "d", "ef", "e", "f", "fs", "g", "gs"]
+allKeysSharp = ["a", "as", "b", "c", "cs", "d", "ds", "e", "f", "fs", "g", "gs"]
+allKeysFlat = ["a", "bf", "b", "c", "df", "d", "ef", "e", "f", "gf", "g", "af"]
+sharpKeys = ["c", "g", "d", "a", "e", "b", "fs", "cs"]
+flattedKeys = ["f", "bf", "ef", "af", "df", "gf", "cf"]
 majorIntervalsAscending = [2,2,1,2,2,2,1]
 majorIntervalsDescending = majorIntervalsAscending[::-1]
 minorIntervalsAscending = [2,1,2,2,1,2,2]
@@ -32,10 +35,14 @@ for e in possibleKeysInScala:
 		else:
 			dictOfKeys[e] = (e[0].lower(), "minor")
 
-def numToKey(n):
+def numToKey(n, key):
 	""" Converts a number between 0-87 into the proper abjad note
 	"""
-	baseNote = allKeys[n % 12]
+	baseNote = None
+	if key in flattedKeys:
+		baseNote = allKeysFlat[n % 12]
+	else:
+		baseNote = allKeysSharp[n % 12]
 	return baseNote + getOctave(n)
 
 # 0-2 -> ,,,
@@ -66,7 +73,11 @@ def generateNotesInScale(key, quality):
 		ascendingIntervals = minorIntervalsAscending
 		descendingIntervals = minorIntervalsDescending
 
-	startingIndex = allKeys.index(key)
+	startingIndex = None
+	if key in flattedKeys:
+		startingIndex = allKeysFlat.index(key)
+	else:
+		startingIndex = allKeysSharp.index(key)
 	
 	# Get the notes below
 	i = 0
@@ -76,7 +87,6 @@ def generateNotesInScale(key, quality):
 		allPossibleScaleNotes.append(currentIndex)
 		currentIndex -= descendingIntervals[i]
 		i = (i + 1) % 7
-	allPossibleScaleNotes.sort() # for test purposes
 
 	# Get the notes above
 	i = 1
@@ -139,7 +149,7 @@ def createScore(content, name):
 			measureNotes = ""
 			while(True): # Until we fill this measure up
 				newNote = predictNextNote(currentNote, currentKey, currentQuality, random.randrange(4,int(14 * currentDuration)), lowerBound, upperBound)
-				measureNotes += numToKey(newNote) + str(int(4/currentDuration)) + " "
+				measureNotes += numToKey(newNote, currentKey) + str(int(4/currentDuration)) + " "
 				duration -= currentDuration
 				if duration <= 0:
 					break

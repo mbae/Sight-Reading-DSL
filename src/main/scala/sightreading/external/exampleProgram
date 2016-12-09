@@ -16,7 +16,8 @@ def secondTheme {
 }
 
 def variation {
-	d minor for 2 bars;
+	F major for 2 bars;
+	Bb major for 2 bars;
 }
 
 recapitulation;
