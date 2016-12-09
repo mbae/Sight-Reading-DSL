@@ -119,7 +119,7 @@ package object semantics {
       val element = unvisitedDefs.head
       unvisitedDefs -= element
       if (performDFS(element, unvisitedDefs)) {
-        throw cycleDetectedException("Cycle found definitions. Will lead to infinite loop")
+        throw cycleDetectedException("Cycle found within definitions. Will lead to infinite loop")
       }
     }
   }
