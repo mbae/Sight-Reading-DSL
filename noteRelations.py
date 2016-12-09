@@ -113,7 +113,11 @@ def createScore(content, name):
 
 
 	# Set the key signature of the whole piece
-	currentKey, currentQuality = dictOfKeys[content[0][0]]
+	currentKey = "c"
+	currentQuality = "major"
+	if len(content) != 0:
+		currentKey, currentQuality = dictOfKeys[content[0][0]]
+
 	key_signature = KeySignature(currentKey, currentQuality)
 	attach(key_signature, staff)
 
@@ -149,7 +153,8 @@ def createScore(content, name):
 	# Transferring staff to score and adding final bar
 	score = Score([])
 	score.append(staff)
-	score.add_final_bar_line()
+	if len(content) != 0:
+		score.add_final_bar_line()
 
 	# command = indicatortools.LilyPondCommand('break', 'after')
 	# attach(command, score[0])
