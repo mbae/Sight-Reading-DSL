@@ -126,13 +126,12 @@ package object semantics {
   
   // Returns false if there is no cycle
   def performDFS(element: String, unvisitedDefs: collection.mutable.Set[String]): Boolean= {
-    var finalBool = false
     tableOfVars.defMap(element).foreach { x =>
       x match {
-        case Variable(n) => if (unvisitedDefs contains n) {unvisitedDefs -= n; performDFS(n, unvisitedDefs);} else {finalBool = true}
+        case Variable(n) => if (unvisitedDefs contains n) {unvisitedDefs -= n; if(performDFS(n, unvisitedDefs)) {return true} } else {return true}
         case _ =>
       }
     }
-    finalBool
+    return false
   }
 }

@@ -21,10 +21,24 @@ object Sightreading {
     }
     val source = scala.io.Source.fromFile(args(0))
     val lines = try source.mkString finally source.close()
-    semantics.eval(SightReadingParser(lines).get)
+    
+    SightReadingParser(lines) match {
+      case SightReadingParser.Success(result, _) => semantics.eval(result)
+      case SightReadingParser.NoSuccess(msg, input) => {printErrorAndFail(msg, input); return;}
+    }
     
     // Runs the python program on the output from Scala
     val command = "python sheetMusicMaker.py " + name + " " + numberOfCopies
     command !
+  }
+  
+  // An attempt to start giving meaningful error messages
+  def printErrorAndFail(msg: String, input: SightReadingParser.Input) {
+    val positionLine = input.pos.line
+    val positionCol = input.pos.column
+    val niceLine = input.pos.longString
+    println("Parsing failed at line " + positionLine.toString + " and column " + positionCol.toString + ":")
+    println(niceLine)
+    println(msg)
   }
 }
