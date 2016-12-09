@@ -1,28 +1,28 @@
 time: 3/4
 key: A major
 
-3/4 for 2 bars;
+3/4 for 2 bars
 
 def recapitulation {
-	G major for 2 bars;
-	e minor, 6/8 for 2 bars;
-	recapitulation;
+	G major for 2 bars
+	e minor, 6/8 for 2 bars
+	recapitulation
 }
 
 def secondTheme {
-	d minor, 6/8 for 3 bars;
-	a minor for 3 bars;
-	variation;
+	d minor, 6/8 for 3 bars
+	a minor for 3 bars
+	variation
 }
 
 def variation {
-	d minor for 2 bars;
-	recapitulation;
+	d minor for 2 bars
+	recapitulation
 }
 
 recapitulation;
-A major, 4/4 for 4 bars;
-b minor, 3/4 for 4 bars;
+A major, 4/4 for 4 bars
+b minor, 3/4 for 4 bars
 
 
 secondTheme 2 times;

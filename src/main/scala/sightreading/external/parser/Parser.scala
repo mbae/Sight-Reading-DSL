@@ -45,17 +45,18 @@ object SightReadingParser extends JavaTokenParsers with RegexParsers{
     // Parses things that are supposed to be written to sheet music
     def actionParser: Parser[List[Statement]] = {
       (   barParser ^^ {case b => b}
-        | keyHolder.aWord ~ wholeNumber ~ "times" ~ ";" ^^ {case s~n~"times"~";" => List(VariableWithRepetition(s,n.toInt))}
-        | keyHolder.aWord ~ ";" ^^ {case s~";" => List(Variable(s))}
+        | keyHolder.aWord ~ wholeNumber ~ "times" ^^ {case s~n~"times" => List(VariableWithRepetition(s,n.toInt))}
+        | keyHolder.aWord ^^ {case s => List(Variable(s))}
       )
     }
     
     // Basic units of music that can be specified
     def barParser: Parser[List[Statement]] = {
-      (   keyParser~","~timeParser~"for"~wholeNumber~"bars"~";" ^^ {case k~","~t~"for"~n~"bars"~";" => List(Bars(Some(k),Some(t),n.toInt))}
-        | keyParser~"for"~wholeNumber~"bars"~";" ^^ {case k~"for"~n~"bars"~";" => List(Bars(Some(k),None,n.toInt))}
-        | timeParser~"for"~wholeNumber~"bars"~";" ^^ {case t~"for"~n~"bars"~";" => List(Bars(None,Some(t),n.toInt))}
-        | wholeNumber~"bars"~";" ^^ {case n~"bars"~";" => List(Bars(None, None,n.toInt))}
+      (   keyParser~","~timeParser~"for"~wholeNumber~"bars" ^^ {case k~","~t~"for"~n~"bars" => List(Bars(Some(k),Some(t),n.toInt))}
+        | timeParser~","~keyParser~"for"~wholeNumber~"bars" ^^ {case t~","~ k ~"for"~n~"bars" => List(Bars(Some(k),Some(t),n.toInt))}
+        | keyParser~"for"~wholeNumber~"bars" ^^ {case k~"for"~n~"bars" => List(Bars(Some(k),None,n.toInt))}
+        | timeParser~"for"~wholeNumber~"bars" ^^ {case t~"for"~n~"bars" => List(Bars(None,Some(t),n.toInt))}
+        | wholeNumber~"bars" ^^ {case n~"bars" => List(Bars(None, None,n.toInt))}
       )
     }
     
