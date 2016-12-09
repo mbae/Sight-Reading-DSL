@@ -7,6 +7,7 @@ case class TimeSignature(top: Int, bot: Int)
 // Something users can say to create music
 sealed abstract class Statement
 case class Bars(key: Option[Scale], time: Option[TimeSignature], numBars: Int) extends Statement
+case class BarsWithVariance(key: Option[Scale], time: Option[TimeSignature], minBars: Int, maxBars: Int) extends Statement
 case class Variable(varName: String) extends Statement
 case class VariableWithRepetition(varName: String, rep: Int) extends Statement
 

@@ -52,10 +52,17 @@ object SightReadingParser extends JavaTokenParsers with RegexParsers{
     
     // Basic units of music that can be specified
     def barParser: Parser[List[Statement]] = {
-      (   keyParser~","~timeParser~"for"~wholeNumber~"bars"~";" ^^ {case k~","~t~"for"~n~"bars"~";" => List(Bars(Some(k),Some(t),n.toInt))}
-        | keyParser~"for"~wholeNumber~"bars"~";" ^^ {case k~"for"~n~"bars"~";" => List(Bars(Some(k),None,n.toInt))}
-        | timeParser~"for"~wholeNumber~"bars"~";" ^^ {case t~"for"~n~"bars"~";" => List(Bars(None,Some(t),n.toInt))}
-        | wholeNumber~"bars"~";" ^^ {case n~"bars"~";" => List(Bars(None, None,n.toInt))}
+      (   keyParser~","~timeParser~"for"~rangeOrNumParser~"bars"~";" ^^ {case k~","~t~"for"~n~"bars"~";" => List(Bars(Some(k),Some(t),n))}
+        | timeParser~","~keyParser~"for"~rangeOrNumParser~"bars"~";" ^^ {case t~","~k~"for"~n~"bars"~";" => List(Bars(Some(k),Some(t),n))}
+        | keyParser~"for"~rangeOrNumParser~"bars"~";" ^^ {case k~"for"~n~"bars"~";" => List(Bars(Some(k),None,n))}
+        | timeParser~"for"~rangeOrNumParser~"bars"~";" ^^ {case t~"for"~n~"bars"~";" => List(Bars(None,Some(t),n))}
+        | rangeOrNumParser~"bars"~";" ^^ {case n~"bars"~";" => List(Bars(None, None,n))}
+      )
+    }
+    
+    def rangeOrNumParser: Parser[Int] = {
+      (   wholeNumber ~ "-" ~ wholeNumber ^^ {case start ~ "-" ~ end => getRandomNumber(start.toInt,end.toInt)}
+        | wholeNumber ^^ {case n => n.toInt}
       )
     }
     
@@ -68,6 +75,11 @@ object SightReadingParser extends JavaTokenParsers with RegexParsers{
     def keyParser: Parser[Scale] = {
       (   keyHolder.majorKeys~"major" ^^ {case k~"major" => Scale(k, "major")}
         | keyHolder.minorKeys~"minor" ^^ {case k~"minor" => Scale(k, "minor")} withErrorMessage "Could not parse the key signature")
-    }  
+    }
+    
+    def getRandomNumber(start: Int,end: Int): Int = {
+      val rnd = new scala.util.Random
+      return start + rnd.nextInt( (end - start) + 1 )
+    }
 }
 

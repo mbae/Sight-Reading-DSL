@@ -1,7 +1,7 @@
 time: 3/4;
 key: A major;
 
-3/4 for 2 bars;
+5/4 for 2-8 bars;
 
 def recapitulation {
 	G major for 2 bars;
@@ -20,7 +20,7 @@ def variation {
 }
 
 recapitulation;
-A major, 4/4 for 4 bars;
+4/4, A major for 4 bars;
 b minor, 3/4 for 4 bars;
 
 
