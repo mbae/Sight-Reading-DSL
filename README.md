@@ -7,6 +7,7 @@ You'll need a few things to get this running:
 * Scala installed with sbt
 * Python 2.x, where x > 7.
 * Abjad and PyPDF2 Python libraries
+* All other dependencies to Abjad and PyPDF2
 
 ## First Steps
 To generate music, you write a program in a separate file and call the following
