@@ -20,3 +20,5 @@ in the root directory of this repository. `name` is the name of the output pdf, 
 ```
 
 An example of what can be outputted is shown as example.pdf
+
+To learn more about the features of this DSL, see the "Final Writeup" in the wiki!
