@@ -6,7 +6,7 @@ You have reached the Sight-Reading-DSL. This DSL is written in hopes to make gen
 You'll need a few things to get this running:
 * Scala installed with sbt
 * Python 2.x, where x > 7.
-* The Abjad and PyPDF2 Python libraries installed
+* Abjad and PyPDF2 Python libraries
 
 ## First Steps
 To generate music, you write a program in a separate file and call the following
