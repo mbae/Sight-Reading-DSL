@@ -19,7 +19,6 @@ in the root directory of this repository. `name` is the name of the output pdf, 
 ```
 ./srgexample name [numOfTimes]
 ```
+For example, one could enter `./srgexample testOutput 5`, and it would put a pdf called "testOutput.pdf" into a folder called "output" at the root of the directory. An example of what can be outputted is shown as example.pdf
 
-An example of what can be outputted is shown as example.pdf
-
-To learn more about the features of this DSL, see the "Final Writeup" in the wiki!
+To learn more about the features of this DSL, see the example in the "Final Writeup" in the wiki!
