@@ -5,7 +5,7 @@ You have reached the Sight-Reading-DSL. This DSL is written in hopes to make gen
 ## Installation
 You'll need a few things to get this running:
 * Scala installed with sbt
-* Python 2.x, where x > 7.
+* Python 2.x, where x >= 7.
 * Abjad and PyPDF2 Python libraries
 * All other dependencies to Abjad and PyPDF2
 
