@@ -1,2 +1,2 @@
 #!/bin/bash
-sbt "run-main sightreading.external.Sightreading $1 $2 $3"
+sbt -error "run-main sightreading.external.Sightreading $1 $2 $3"

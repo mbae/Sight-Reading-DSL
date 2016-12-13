@@ -1,5 +1,9 @@
 # Building and running Sightreading
 
-To run sightreading, run the following command in the same highest-level directory for the example program:
+To run the DSL on your own program, run the following command in the directory with srg script:
 
-`sbt "run-main sightreading.external.Sightreading exampleProgram"`
+`./srg path/to/program nameOfOutput [numOfVariations]`
+
+or to run the example program:
+
+`./srgexample nameOfOutput [numOfVariations]`
