@@ -31,7 +31,7 @@ object SightReadingParser extends JavaTokenParsers with RegexParsers{
     def defParser: Parser[List[Statement]] = {
       (   "def" ~ keyHolder.aWord ~ "{" ~ actionParsers ~ "}" ^^ {case "def" ~ s ~"{" ~ a ~ "}" => List(Definition(s,a))}
         | "time" ~ ":" ~ timeParser ~ ";" ^^ {case "time" ~ ":" ~ t ~ ";" => List(globalTime(t))}
-        | "key" ~ ":" ~ keyParser ~ ";" ^^ {case "key" ~ ":" ~ k ~ ";" => List(globalKey(k))} withErrorMessage "Could not parse definition"
+        | "key" ~ ":" ~ keyParser ~ ";" ^^ {case "key" ~ ":" ~ k ~ ";" => List(globalKey(k))}
       )
     }
     
@@ -68,13 +68,13 @@ object SightReadingParser extends JavaTokenParsers with RegexParsers{
     
     // Parses a time signature
     def timeParser: Parser[TimeSignature] = {
-      (   wholeNumber~"/"~wholeNumber ^^ {case n1~"/"~n2 => TimeSignature(n1.toInt,n2.toInt)} withErrorMessage "Could not parse time signature")
+      (   wholeNumber~"/"~wholeNumber ^^ {case n1~"/"~n2 => TimeSignature(n1.toInt,n2.toInt)})
     }
     
     // Parses a key signature
     def keyParser: Parser[Scale] = {
       (   keyHolder.majorKeys~"major" ^^ {case k~"major" => Scale(k, "major")}
-        | keyHolder.minorKeys~"minor" ^^ {case k~"minor" => Scale(k, "minor")} withErrorMessage "Could not parse the key signature")
+        | keyHolder.minorKeys~"minor" ^^ {case k~"minor" => Scale(k, "minor")})
     }
     
     def getRandomNumber(start: Int,end: Int): Int = {

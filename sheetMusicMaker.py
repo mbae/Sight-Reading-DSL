@@ -2,6 +2,9 @@
 # import sys
 # import random
 # from abjad import *
+import subprocess
+import webbrowser
+
 from noteRelations import *
 from PyPDF2 import PdfFileMerger
 
@@ -29,3 +32,6 @@ files = os.listdir(thisDir)
 for file in files:
     if file.endswith(".ly") or file in pdfs:
         os.remove(os.path.join(thisDir,file))
+
+
+# webbrowser.open(r'file:///home/matthew/cs111/Sight-Reading-DSL/output/' + name)
