@@ -118,17 +118,20 @@ package object semantics {
     while (!unvisitedDefs.isEmpty) {
       val element = unvisitedDefs.head
       unvisitedDefs -= element
-      if (performDFS(element, unvisitedDefs)) {
+      var visited:collection.mutable.Set[String] = collection.mutable.Set()
+      if (performDFS(element, unvisitedDefs, visited)) {
         throw cycleDetectedException("Cycle found within definitions. Will lead to infinite loop")
       }
+      // Remove visited stuff from unvisitedDefs
+      visited.foreach { x => if (unvisitedDefs contains x) {unvisitedDefs.remove(x)} }
     }
   }
   
   // Returns false if there is no cycle
-  def performDFS(element: String, unvisitedDefs: collection.mutable.Set[String]): Boolean= {
+  def performDFS(element: String, unvisitedDefs: collection.mutable.Set[String], visited: collection.mutable.Set[String]): Boolean= {
     tableOfVars.defMap(element).foreach { x =>
       x match {
-        case Variable(n) => if (unvisitedDefs contains n) {unvisitedDefs -= n; if(performDFS(n, unvisitedDefs)) {return true} } else {return true}
+        case Variable(n) => if (!(visited contains n)) {visited += n; if(performDFS(n, unvisitedDefs, visited)) {return true} } else {return true}
         case _ =>
       }
     }
